@@ -1,0 +1,21 @@
+import argparse
+from atomfun.engine import scan_repository
+
+def main():
+    parser = argparse.ArgumentParser(prog="atomfun", description="AtomFun: Repository Capability Discovery")
+    parser.add_argument("repo_path", help="Path to the local repository to scan")
+    parser.add_argument("-o", "--output", default="atomfun_registry.json", help="Path for the output JSON")
+    
+    args = parser.parse_args()
+    
+    print(f"[*] Scanning repository at: {args.repo_path}")
+    registry = scan_repository(args.repo_path)
+    
+    import json
+    with open(args.output, "w") as f:
+        json.dump(registry, f, indent=2)
+        
+    print(f"[+] Successfully extracted {len(registry)} functions to {args.output}")
+
+if __name__ == "__main__":
+    main()
